@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="dashboard">
+  <header class="dashboard-header">
+    <div>
+      <p class="tag"><span class="status-dot"></span> NEXUS / CENTRAL DE OPERAÇÕES</p>
+      <h1>Olá, {{ session.user_name }}<span class="heading-mark">.</span></h1>
+      <p class="dashboard-intro">Seu espaço de criação está pronto. Organize suas ideias e acompanhe seus projetos.</p>
+    </div>
+    <div class="system-status"><span class="status-dot"></span><span>SISTEMA ONLINE</span></div>
+  </header>
+
+  <section class="stats" aria-label="Resumo do painel">
+    <article class="stat-card">
+      <span class="stat-label">PROJETOS NO WORKSPACE</span>
+      <strong class="stat-value">{{ projects|length }}</strong>
+      <span class="stat-caption">projetos cadastrados</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">AMBIENTE</span>
+      <strong class="stat-value stat-word">PESSOAL</strong>
+      <span class="stat-caption">workspace privado</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">CONEXÃO</span>
+      <strong class="stat-value stat-word online-text">ESTÁVEL</strong>
+      <span class="stat-caption"><span class="status-dot"></span> painel disponível</span>
+    </article>
+  </section>
+
+  <section class="workspace-grid">
+    <section class="card create-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">01 / NOVO REGISTRO</p>
+          <h2>Criar projeto</h2>
+        </div>
+        <span class="heading-icon" aria-hidden="true">+</span>
+      </div>
+      <p class="card-description">Adicione um projeto ao seu workspace.</p>
+      <form method="post" action="{{ url_for('new_project') }}" class="project-form">
+        <label for="project-name">Nome do projeto</label>
+        <input id="project-name" name="name" placeholder="ex: meu próximo app" required>
+        <label for="project-description">Descrição <span>(opcional)</span></label>
+        <textarea id="project-description" name="description" placeholder="O que você está construindo?"></textarea>
+        <button type="submit"><span aria-hidden="true">＋</span> Adicionar projeto</button>
+      </form>
+      <div class="form-footnote"><span class="status-dot"></span> Salvo no seu workspace</div>
+    </section>
+
+    <section class="card projects-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">02 / SEU WORKSPACE</p>
+          <h2>Seus projetos <span class="count-badge">{{ projects|length }}</span></h2>
+        </div>
+        <span class="projects-live"><span class="status-dot"></span> ATUALIZADO</span>
+      </div>
+
+      {% if projects %}
+      <div class="project-list">
+        {% for p in projects %}
+        <article class="project">
+          <span class="project-index">{{ "%02d"|format(loop.index) }}</span>
+          <div class="project-info">
+            <h3>{{ p.name }}</h3>
+            <p>{{ p.description or "Sem descrição adicionada." }}</p>
+          </div>
+          <form method="post" action="{{ url_for('delete_project', project_id=p.id) }}">
+            <button type="submit" class="danger" aria-label="Excluir projeto {{ p.name }}">Excluir</button>
+          </form>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <span class="empty-icon" aria-hidden="true">_</span>
+        <h3>Nenhum projeto encontrado</h3>
+        <p>Seu workspace está esperando pela primeira ideia.</p>
+      </div>
+      {% endif %}
+    </section>
+  </section>
+  <footer class="dashboard-footer"><span>NEXUS DEV</span><span>AMBIENTE DE DESENVOLVIMENTO // 01</span></footer>
+</section>
+{% endblock %}

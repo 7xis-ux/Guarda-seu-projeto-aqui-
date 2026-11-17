@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<section class="card auth">
+<p class="tag">SEU ESPAÇO DE CRIAÇÃO</p><h1>Bem-vindo ao 7xisDEV</h1><p>Entre no seu painel de programação.</p>
+<form method="post">
+<input name="email" type="email" placeholder="E-mail" required>
+<input name="password" type="password" placeholder="Senha" required>
+<button>Entrar</button>
+</form>
+<p>Não tem conta? <a href="{{ url_for('register') }}">Criar conta</a></p>
+</section>
+{% endblock %}

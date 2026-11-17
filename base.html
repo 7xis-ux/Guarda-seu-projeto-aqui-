@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7xisDEV</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='particles.js') }}" defer></script>
+</head>
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+<nav><a class="brand" href="{{ url_for('dashboard') }}">7xis<span>DEV</span></a>
+{% if session.get('user_id') %}<a href="{{ url_for('logout') }}">Sair</a>{% endif %}</nav>
+<main>
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+{% endwith %}
+{% block content %}{% endblock %}
+</main>
+</body>
+</html>
